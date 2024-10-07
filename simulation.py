@@ -23,7 +23,6 @@ START_COORDS = {
 }
 
 STOP_LINES = {'right': 590, 'down': 330, 'left': 800, 'up': 535}
-STOP_GAP = 15
 
 # Initialize Pygame
 pygame.init()
@@ -38,14 +37,13 @@ class TrafficSignal:
 
 class Vehicle(pygame.sprite.Sprite):
     def __init__(self, lane, vehicle_type, direction):
-        super().__init__()
+        super().__init__(simulation)  # Add the vehicle to the simulation group
         self.lane = lane
         self.vehicle_type = vehicle_type
         self.speed = SPEEDS[vehicle_type]
         self.direction = direction
         self.image = pygame.image.load(f"images/{direction}/{vehicle_type}.png").convert_alpha()
         self.x, self.y = self.set_position()
-        self.crossed = False
 
     def set_position(self):
         if self.direction == 'right':
