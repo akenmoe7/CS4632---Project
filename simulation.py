@@ -109,3 +109,14 @@ class Simulation:
 
 if __name__ == "__main__":
     Simulation().run()
+
+
+Traceback (most recent call last):
+  File "/Users/andy/Basic-Traffic-Intersection-Simulation/Basic-Traffic-Intersection-Simulation/simulation.py", line 111, in <module>
+    Simulation().run()
+  File "/Users/andy/Basic-Traffic-Intersection-Simulation/Basic-Traffic-Intersection-Simulation/simulation.py", line 104, in run
+    vehicle.move()
+  File "/Users/andy/Basic-Traffic-Intersection-Simulation/Basic-Traffic-Intersection-Simulation/simulation.py", line 64, in move
+    self.x -= self.speed
+AttributeError: 'Vehicle' object has no attribute 'x'
+
