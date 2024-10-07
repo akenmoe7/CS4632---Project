@@ -11,6 +11,7 @@ DEFAULT_TIMERS = {
     "red": 150,
 }
 SPEEDS = {'car': 2.25, 'bus': 1.8, 'truck': 1.8, 'bike': 2.5}
+VEHICLE_TYPES = list(SPEEDS.keys())
 DIRECTIONS = ['right', 'down', 'left', 'up']
 
 # Vehicle starting coordinates
@@ -42,18 +43,21 @@ class Vehicle(pygame.sprite.Sprite):
         self.vehicle_type = vehicle_type
         self.speed = SPEEDS[vehicle_type]
         self.direction = direction
-        self.image = pygame.image.load(f"images/{direction}/{vehicle_type}.png")
+        self.image = pygame.image.load(f"images/{direction}/{vehicle_type}.png").convert_alpha()
         self.x, self.y = self.set_position()
-        self.stop = self.calculate_stop()
+        self.crossed = False
 
     def set_position(self):
-        return START_COORDS[self.direction][self.lane], 0 if self.direction in ['right', 'left'] else START_COORDS[self.direction][self.lane]
-
-    def calculate_stop(self):
-        return STOP_LINES[self.direction]
+        if self.direction == 'right':
+            return START_COORDS[self.direction][self.lane], 400
+        elif self.direction == 'down':
+            return 800, START_COORDS[self.direction][self.lane]
+        elif self.direction == 'left':
+            return START_COORDS[self.direction][self.lane], 400
+        elif self.direction == 'up':
+            return 800, START_COORDS[self.direction][self.lane]
 
     def move(self):
-        # Movement logic
         if self.direction == 'right':
             self.x += self.speed
         elif self.direction == 'down':
@@ -71,7 +75,7 @@ def initialize_signals():
 
 def generate_vehicles():
     while True:
-        vehicle_type = random.choice(list(SPEEDS.keys()))
+        vehicle_type = random.choice(VEHICLE_TYPES)
         lane = random.randint(0, 2)
         direction = random.choice(DIRECTIONS)
         Vehicle(lane, vehicle_type, direction)
@@ -80,18 +84,15 @@ def generate_vehicles():
 class Simulation:
     def __init__(self):
         self.signals = initialize_signals()
-        self.current_signal = 0
         threading.Thread(target=generate_vehicles, daemon=True).start()
-
-    def update_signals(self):
-        while True:
-            # Update logic for signals
-            time.sleep(1)  # Simplified for demonstration
 
     def run(self):
         screen = pygame.display.set_mode((1400, 800))
         pygame.display.set_caption("Traffic Simulation")
         clock = pygame.time.Clock()
+
+        # Load background image
+        background = pygame.image.load('images/intersection.png').convert()
 
         while True:
             for event in pygame.event.get():
@@ -99,7 +100,8 @@ class Simulation:
                     pygame.quit()
                     sys.exit()
 
-            screen.fill((0, 0, 0))  # Clear screen
+            screen.blit(background, (0, 0))  # Draw background
+            simulation.update()  # Update vehicle positions
             for vehicle in simulation:
                 vehicle.move()
                 vehicle.render(screen)
