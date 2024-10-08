@@ -21,7 +21,7 @@ speeds = {
     'truck': 0.8,
     'bike': 1.5
 }  # average speeds of vehicles
-
+# coordinates are  based on the pixels of the intersection.png
 # Coordinates of vehicles' start
 x = {
     'right': [0, 0, 0],
@@ -53,9 +53,6 @@ signalTimerCoods = [(530, 210), (810, 210), (810, 550), (530, 550)]
 stopLines = {'right': 590, 'down': 330, 'left': 800, 'up': 535}
 defaultStop = {'right': 580, 'down': 320, 'left': 810, 'up': 545}
 
-# Gap between vehicles
-stoppingGap = 15    # stopping gap
-movingGap = 15   # moving gap
 
 pygame.init()
 simulation = pygame.sprite.Group()
@@ -129,8 +126,6 @@ def initialize():
     repeat()
 
 
-    
-    # reset all signal times of current signal to default times
     signals[currentGreen].green = defaultGreen[currentGreen]
     signals[currentGreen].yellow = defaultYellow
     signals[currentGreen].red = defaultRed
