@@ -6,5 +6,8 @@ A 4-way traffic intersection with traffic signals that control the flow of traff
 
 The plan is to create a traffic simulation with a timer that is controlled by the time of day in a fictitious Urban city, and be able to control the speed of each vehicle.
 
-How does a random change in the time of day affect traffic?
+Goal: Find out how a random change in the time of day effect traffic flow?
+
+
+* The UML diagram was updated to understand the program
 * This simulation is based on the simulation created by Derwin Elsenique on Youtube
